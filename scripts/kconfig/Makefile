@@ -108,21 +108,20 @@ else
 	$(Q)$< --defconfig=$(DEFCONFIG_PATH)/$@ $(Kconfig)
 endif
 
-configfiles=$(wildcard $(srctree)/kernel/configs/$(1).config $(srctree)/arch/$(SRCARCH)/configs/$(1).config)
+configfiles=$(wildcard $(srctree)/kernel/configs/$@ $(srctree)/arch/$(SRCARCH)/configs/$@)
 
-define mergeconfig
-$(if $(call configfiles,$(1)),, $(error No configuration exists for this target on this architecture))
-$(Q)$(CONFIG_SHELL) $(srctree)/scripts/kconfig/merge_config.sh -m .config $(call configfiles,$(1))
-+$(Q)yes "" | $(MAKE) -f $(srctree)/Makefile oldconfig
-endef
+%.config: $(obj)/conf
+	$(if $(call configfiles),, $(error No configuration exists for this target on this architecture))
+	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/kconfig/merge_config.sh -m .config $(configfiles)
+	$(Q)yes "" | $(MAKE) -f $(srctree)/Makefile oldconfig
 
 PHONY += kvmconfig
-kvmconfig:
-	$(call mergeconfig,kvm_guest)
+kvmconfig: kvm_guest.config
+	@:
 
 PHONY += tinyconfig
-tinyconfig: allnoconfig
-	$(call mergeconfig,tiny)
+tinyconfig:
+	$(Q)$(MAKE) -f $(srctree)/Makefile allnoconfig tiny.config
        
 
 
