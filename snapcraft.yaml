@@ -1,4 +1,4 @@
-name: ubuntu-generic-kernel
+name: linux-opennsl
 version: 4.4.0
 summary: The generic kernel for snappy
 description: This is a generic snapped kernel, based off the xenial src and config
@@ -11,6 +11,9 @@ parts:
     source-type: git
     kdefconfig: ['--makefile=debian/snapcraft.mk', 'branch=master','flavour=generic', 'config']
     kconfigs:
-      - CONFIG_LOCALVERSION="-xenial_generic"
+      - CONFIG_LOCALVERSION="-opennsl"
       - CONFIG_DEBUG_INFO=n
+      - CONFIG_OPENNSL_KERNEL_BDE=m
+      - CONFIG_OPENNSL_BCM_KNET=m
+      - CONFIG_OPENNSL_USER_BDE=m
     kernel-image-target: bzImage
