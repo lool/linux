@@ -23,6 +23,7 @@ linux-kernel-bde-objs := \
 	systems/bde/shared/shbde_iproc.o \
 	systems/bde/shared/shbde_mdio.o \
 	systems/bde/shared/shbde_pci.o \
+	systems/linux/kernel/modules/shared/gmodule.o \
 
 obj-$(CONFIG_OPENNSL_USER_BDE) += linux-user-bde.o
 
