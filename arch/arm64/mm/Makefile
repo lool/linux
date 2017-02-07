@@ -1,6 +1,6 @@
 GCOV_PROFILE := y
 
-subdir-ccflags-y += -Werror
+subdir-ccflags-y += -Werror -Wno-error=unused-function
 
 obj-y				:= dma-mapping.o extable.o fault.o init.o \
 				   cache.o copypage.o flush.o \
