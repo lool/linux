@@ -32,7 +32,7 @@
  *
  * Returns: pointer to table else NULL on failure
  *
- * NOTE: must be freed by kvfree (not kfree)
+ * NOTE: must be freed by aa_kvfree (not kfree)
  */
 static struct table_header *unpack_table(char *blob, size_t bsize)
 {
@@ -83,7 +83,7 @@ out:
 		vm_unmap_aliases();
 	return table;
 fail:
-	kvfree(table);
+	aa_kvfree(table);
 	return NULL;
 }
 
@@ -171,7 +171,7 @@ static void dfa_free(struct aa_dfa *dfa)
 		int i;
 
 		for (i = 0; i < ARRAY_SIZE(dfa->tables); i++) {
-			kvfree(dfa->tables[i]);
+			aa_kvfree(dfa->tables[i]);
 			dfa->tables[i] = NULL;
 		}
 		kfree(dfa);
@@ -276,7 +276,7 @@ struct aa_dfa *aa_dfa_unpack(void *blob, size_t size, int flags)
 	return dfa;
 
 fail:
-	kvfree(table);
+	aa_kvfree(table);
 	dfa_free(dfa);
 	return ERR_PTR(error);
 }

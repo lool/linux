@@ -107,7 +107,7 @@ static char *aa_simple_write_to_buffer(int op, const char __user *userbuf,
 		return ERR_PTR(-ENOMEM);
 
 	if (copy_from_user(data, userbuf, copy_size)) {
-		kvfree(data);
+		aa_kvfree(data);
 		return ERR_PTR(-EFAULT);
 	}
 
@@ -127,7 +127,7 @@ static ssize_t profile_load(struct file *f, const char __user *buf, size_t size,
 	error = PTR_ERR(data);
 	if (!IS_ERR(data)) {
 		error = aa_replace_profiles(data, size, PROF_ADD);
-		kvfree(data);
+		aa_kvfree(data);
 	}
 
 	return error;
@@ -149,7 +149,7 @@ static ssize_t profile_replace(struct file *f, const char __user *buf,
 	error = PTR_ERR(data);
 	if (!IS_ERR(data)) {
 		error = aa_replace_profiles(data, size, PROF_REPLACE);
-		kvfree(data);
+		aa_kvfree(data);
 	}
 
 	return error;
@@ -177,7 +177,7 @@ static ssize_t profile_remove(struct file *f, const char __user *buf,
 	if (!IS_ERR(data)) {
 		data[size] = 0;
 		error = aa_remove_profiles(data, size);
-		kvfree(data);
+		aa_kvfree(data);
 	}
 
 	return error;
